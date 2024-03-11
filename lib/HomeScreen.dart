@@ -1,28 +1,41 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Add this line for SystemUiOverlayStyle
 import 'GameLogic.dart'; // Importing the GameLogic.dart file
+
+void main() => runApp(MaterialApp(home: HomeScreen()));
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
-  @override
+  // @Override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   String selectedRocket = 'ship.png'; // Initial selected rocket/player option
 
-  @override
+  // @Override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Rocket Space Shooter Game'),
+  return Scaffold(
+    extendBodyBehindAppBar: true,
+    appBar: AppBar(
+      title: const Text(
+        'Rocket Space Shooter Game',
+        style: TextStyle(
+          color: Colors.blue, // Text color set to white
+          fontWeight: FontWeight.bold, // Text style set to bold
+        ),
+      ),
+      centerTitle: true,
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      systemOverlayStyle: SystemUiOverlayStyle.light, // For light status bar icons
       ),
       body: Stack(
         children: [
-          // Background Image with Opacity
           Opacity(
-            opacity: 0.8, // Set the opacity level to 50%
+            opacity: 0.8, 
             child: Container(
               width: double.infinity,
               height: double.infinity,
@@ -34,57 +47,58 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          // Content
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    RocketOption(
-                      imagePath: 'assets/images/ship.png',
-                      isSelected: selectedRocket == 'ship.png',
-                      onPressed: () {
-                        setState(() {
-                          selectedRocket = 'ship.png';
-                        });
-                      },
-                    ),
-                    RocketOption(
-                      imagePath: 'assets/images/start-up.png',
-                      isSelected: selectedRocket == 'start-up.png',
-                      onPressed: () {
-                        setState(() {
-                          selectedRocket = 'start-up.png';
-                        });
-                      },
-                    ),
-                    RocketOption(
-                      imagePath: 'assets/images/project.png',
-                      isSelected: selectedRocket == 'project.png',
-                      onPressed: () {
-                        setState(() {
-                          selectedRocket = 'project.png';
-                        });
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 50), // Space between the rocket options and the start button
-                StartButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => GameWidget(
-                          game: SpaceShooterGame(selectedRocket),
-                        ),
+          SafeArea(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      RocketOption(
+                        imagePath: 'assets/images/ship.png',
+                        isSelected: selectedRocket == 'ship.png',
+                        onPressed: () {
+                          setState(() {
+                            selectedRocket = 'ship.png';
+                          });
+                        },
                       ),
-                    );
-                  },
-                ),
-              ],
+                      RocketOption(
+                        imagePath: 'assets/images/start-up.png',
+                        isSelected: selectedRocket == 'start-up.png',
+                        onPressed: () {
+                          setState(() {
+                            selectedRocket = 'start-up.png';
+                          });
+                        },
+                      ),
+                      RocketOption(
+                        imagePath: 'assets/images/project.png',
+                        isSelected: selectedRocket == 'project.png',
+                        onPressed: () {
+                          setState(() {
+                            selectedRocket = 'project.png';
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 50), // Space between the rocket options and the start button
+                  StartButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => GameWidget(
+                            game: SpaceShooterGame(selectedRocket),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -105,7 +119,7 @@ class RocketOption extends StatelessWidget {
     required this.onPressed,
   });
 
-  @override
+  // @Override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 
@@ -134,15 +148,17 @@ class StartButton extends StatelessWidget {
     required this.onPressed,
   });
 
-  @override
+  // @Override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.white, backgroundColor: Colors.blue, padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.blue,
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
-        ), // Text color
+        ),
         elevation: 5,
       ),
       child: const Text(
